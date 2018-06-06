@@ -106,6 +106,16 @@ public class Drawing {
         colorHashMap.put("", Color.WHITE);
     }
 
+    public void addOnClickGrainColor(int grainCount){
+        Random random = new Random();
+        int r = Math.abs(random.nextInt()%255);
+        int g = Math.abs(random.nextInt()%255);
+        int b = Math.abs(random.nextInt()%255);
+        Color color = Color.rgb(r,g,b);
+        String name = "grain"+grainCount;
+        colorHashMap.put(name, color);
+    }
+
     public void clearBoard(){
         graphicsContext.setFill(Color.WHITE);
         graphicsContext.fillRect(0, 0, canvasHeight, canvasWidth);

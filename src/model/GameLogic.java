@@ -532,6 +532,12 @@ public class GameLogic {
         drawing.drawBoardString(board);
     }
 
+
+    public void randomGrainsEvenlySpaced(){
+
+
+    }
+
     private Boolean checkRadius(int radius, int[][] grainCoordinates, int x, int y, int i) {
         Boolean aboveRadius = false;
         for (int j = 0; j <= i; j++) {

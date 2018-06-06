@@ -2,6 +2,7 @@ package view;
 
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
@@ -9,21 +10,32 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
+import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import model.GameLogic;
+import sun.applet.Main;
 
 
+import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 public class Controller {
+
 
     int canvasHeight, canvasWidth;
     int sizeOfCell;
     int iterationCount;
     int grainsCount;
     Thread thread;
+
+    Stage primaryStage;
+
 
     int i = 1;
 
@@ -35,6 +47,12 @@ public class Controller {
 
     @FXML
     TextField radiusTextField;
+
+    @FXML
+    TextField xBoardSizeTextField;
+
+    @FXML
+    TextField yBoardSizeTextField;
 
     @FXML
     Canvas canvas;
@@ -57,6 +75,7 @@ public class Controller {
     public GraphicsContext graphicsContext;
 
     GameLogic gameLogic;
+    private boolean running = true;
 
 
     @FXML
@@ -65,7 +84,7 @@ public class Controller {
         graphicsContext = canvas.getGraphicsContext2D();
         sizeOfCellTextField.setText("20");
         grainsCountTextField.setText("0");
-        iterationCountTextField.setText("1");
+//        iterationCountTextField.setText("1");
         choiceBox.setItems(FXCollections.observableArrayList(
                 "Grains - Moore",
                 "Grains - Von Neumann",
@@ -78,7 +97,8 @@ public class Controller {
                 "Grains - Pentagonal right",
                 "Grains - Pentagonal random"));
 
-
+        xBoardSizeTextField.setText("1000");
+        yBoardSizeTextField.setText("1000");
     }
 
     @FXML
@@ -86,8 +106,11 @@ public class Controller {
 
 
         sizeOfCell = Integer.parseInt(sizeOfCellTextField.getText());
-        canvasHeight = (int) canvas.getHeight();
-        canvasWidth = (int) canvas.getWidth();
+//        canvasHeight = (int) canvas.getHeight();
+//        canvasWidth = (int) canvas.getWidth();
+        canvasHeight = Integer.parseInt(xBoardSizeTextField.getText());
+        canvasWidth = Integer.parseInt(yBoardSizeTextField.getText());
+
         if (grainsRadioButton.isSelected()) {
             String choice = (String) choiceBox.getValue();
             grainsCount = Integer.parseInt(grainsCountTextField.getText());
@@ -112,25 +135,18 @@ public class Controller {
 
     @FXML
     void handleStartSimulationButton() throws InterruptedException {
-
+        running = true;
         thread = new Thread(() -> {
-            iterationCount = Integer.parseInt(iterationCountTextField.getText());
-            System.out.println("iterationCount" + iterationCount);
-            for (int i = 0; i < iterationCount; i++) {
-
+            while (running) {
                 Platform.runLater(() -> startFunction());
-
                 try {
-                    thread.sleep(300);
+                    Thread.sleep(1000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                System.out.println("end of iteration" + i);
             }
         });
-
         thread.start();
-
     }
 
     private void startFunction() {
@@ -148,7 +164,7 @@ public class Controller {
 
     public void drawOnCanvas() {
 //        initDraw();
-        i = 1;
+        i = grainsCount+1;
 
         canvas.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
             @Override
@@ -164,7 +180,8 @@ public class Controller {
                 gameLogic.fillBoardStateInt(xPosition, yPosition, 1);
                 System.out.println("state of cell = " + xPosition + " " + yPosition + "  " + gameLogic.board.board[xPosition][yPosition].cellStateString);
                 i++;
-                gameLogic.drawing.drawBoard(gameLogic.board);
+                gameLogic.drawing.addOnClickGrainColor(i);
+                gameLogic.drawing.drawBoardString(gameLogic.board);
             }
         });
     }
@@ -177,6 +194,28 @@ public class Controller {
         int radius = Integer.parseInt(radiusTextField.getText());
         System.out.println("radius = "+radius);
         gameLogic.randomGrainsRadius(radius);
+    }
+
+    @FXML
+    public void handleStopButton(){
+        running = false;
+//        thread.stop();
+            thread.interrupt();
+    }
+
+    private void saveFile(){
+        FileChooser fc = new FileChooser();
+        fc.setInitialDirectory(new File("res/maps"));
+        fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("PNG","*.png"));
+        fc.setTitle("Save Map");
+        File file = fc.showSaveDialog(primaryStage);
+        if(file != null){
+            WritableImage wi = new WritableImage((int)canvasWidth,(int)canvasHeight);
+            try {                    ImageIO.write(SwingFXUtils.fromFXImage(canvas.snapshot(null,wi),null),"png",file);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
 

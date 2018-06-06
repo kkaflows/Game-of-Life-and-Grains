@@ -8,25 +8,30 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="949.0" prefWidth="1156.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.Controller">
+<AnchorPane prefHeight="1128.0" prefWidth="1327.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.Controller">
    <children>
-      <Canvas fx:id="canvas" height="900.0" layoutX="65.0" layoutY="55.0" width="900.0" />
-      <Button layoutX="1025.0" layoutY="23.0" mnemonicParsing="false" onAction="#handleStartSimulationButton" text="Start simulation" />
-      <Button layoutX="1037.0" layoutY="499.0" mnemonicParsing="false" onAction="#handleInitializeButton" text="initialize" />
-      <TextField fx:id="sizeOfCellTextField" layoutX="992.0" layoutY="449.0" />
-      <Label layoutX="1038.0" layoutY="420.0" text="size of cell" />
-      <RadioButton fx:id="gameOfLifeRadioButton" layoutX="1019.0" layoutY="78.0" mnemonicParsing="false" text="Game Of Life" />
-      <RadioButton fx:id="grainsRadioButton" layoutX="1025.0" layoutY="119.0" mnemonicParsing="false" text="Grains" />
-      <TextField fx:id="iterationCountTextField" layoutX="991.0" layoutY="376.0" />
-      <Label layoutX="1025.0" layoutY="344.0" text="Iteration Count" />
-      <Label layoutX="1032.0" layoutY="280.0" text="Grains Count" />
-      <TextField fx:id="grainsCountTextField" layoutX="992.0" layoutY="306.0" />
-      <ChoiceBox fx:id="choiceBox" layoutX="989.0" layoutY="164.0" prefWidth="150.0" />
-      <RadioButton fx:id="periodRadioButton" layoutX="1021.0" layoutY="223.0" mnemonicParsing="false" text="Period" />
-      <Button layoutX="1015.0" layoutY="543.0" mnemonicParsing="false" onAction="#handleRandomGrains" text="Random Grains" />
-      <Button layoutX="996.0" layoutY="635.0" mnemonicParsing="false" onAction="#handleRandomGrainsRadius" text="Random Grains Radius" />
-      <Button layoutX="978.0" layoutY="681.0" mnemonicParsing="false" text="Random Grains evenly spaced" />
-      <TextField fx:id="radiusTextField" layoutX="992.0" layoutY="588.0" />
+      <Canvas fx:id="canvas" height="1000.0" layoutX="65.0" layoutY="55.0" width="1000.0" />
+      <Button layoutX="1189.0" layoutY="29.0" mnemonicParsing="false" onAction="#handleStartSimulationButton" text="Start simulation" />
+      <Button layoutX="1204.0" layoutY="410.0" mnemonicParsing="false" onAction="#handleInitializeButton" text="initialize" />
+      <TextField fx:id="sizeOfCellTextField" layoutX="1161.0" layoutY="370.0" />
+      <Label layoutX="1204.0" layoutY="337.0" text="size of cell" />
+      <RadioButton fx:id="gameOfLifeRadioButton" layoutX="1188.0" layoutY="119.0" mnemonicParsing="false" text="Game Of Life" />
+      <RadioButton fx:id="grainsRadioButton" layoutX="1197.0" layoutY="153.0" mnemonicParsing="false" text="Grains" />
+      <Label layoutX="1198.0" layoutY="268.0" text="Grains Count" />
+      <TextField fx:id="grainsCountTextField" layoutX="1161.0" layoutY="296.0" />
+      <ChoiceBox fx:id="choiceBox" layoutX="1159.0" layoutY="191.0" prefWidth="150.0" />
+      <RadioButton fx:id="periodRadioButton" layoutX="1205.0" layoutY="234.0" mnemonicParsing="false" text="Period" />
+      <Button layoutX="1186.0" layoutY="451.0" mnemonicParsing="false" onAction="#handleRandomGrains" text="Random Grains" />
+      <Button layoutX="1165.0" layoutY="546.0" mnemonicParsing="false" onAction="#handleRandomGrainsRadius" text="Random Grains Radius" />
+      <Button layoutX="1137.0" layoutY="587.0" mnemonicParsing="false" text="Random Grains evenly spaced" />
+      <TextField fx:id="radiusTextField" layoutX="1161.0" layoutY="510.0" />
+      <Button layoutX="1218.0" layoutY="76.0" mnemonicParsing="false" onAction="#handleStopButton" text="Stop" />
+      <Label layoutX="1221.0" layoutY="487.0" text="Radius" />
+      <TextField layoutX="1147.0" layoutY="682.0" fx:id="xBoardSizeTextField" />
+      <TextField fx:id="yBoardSizeTextField" layoutX="1151.0" layoutY="745.0" />
+      <Label layoutX="1221.0" layoutY="655.0" text="x:" />
+      <Label layoutX="1221.0" layoutY="719.0" text="y:" />
+      <Label layoutX="1201.0" layoutY="630.0" text="Board size:" />
 
 
    </children>
