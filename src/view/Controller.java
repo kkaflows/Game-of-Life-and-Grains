@@ -152,10 +152,12 @@ public class Controller {
     private void startFunction() {
 
         if (gameOfLifeRadioButton.isSelected()) {
+
             gameLogic.board = gameLogic.calculateIterationGameOfLife();
             gameLogic.drawing.drawBoard(gameLogic.board);
         }
         if (grainsRadioButton.isSelected()) {
+            gameLogic.choice = (String) choiceBox.getValue();
             gameLogic.board = gameLogic.calculateIterationGrains();
             gameLogic.drawing.drawBoardString(gameLogic.board);
         }
@@ -201,6 +203,11 @@ public class Controller {
         running = false;
 //        thread.stop();
             thread.interrupt();
+    }
+
+    @FXML
+    public void handleRandomGrainsEvenlySpaced(){
+        gameLogic.randomGrainsEvenlySpaced();
     }
 
     private void saveFile(){

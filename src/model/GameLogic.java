@@ -17,7 +17,7 @@ public class GameLogic {
     int rows, columns;
     int canvasHeight, canvasWidth;
     int grainsCount;
-    String choice;
+    public String choice;
     Boolean period = true;
 
     RadioButton periodRadioButton;
@@ -284,7 +284,8 @@ public class GameLogic {
             if (y == -1) tmpY = 0;
             if (y == rows) tmpY = rows - 1;
         }
-        if (board.board[tmpX][tmpY].cellStateString == "")
+        if (board.board[tmpX][tmpY].cellStateString == "" && newBoard.board[tmpX][tmpY].cellStateString =="")
+
             newBoard.board[tmpX][tmpY].cellStateString = grainName;
     }
 
@@ -535,6 +536,25 @@ public class GameLogic {
 
     public void randomGrainsEvenlySpaced(){
 
+
+        int product = rows*columns;
+        int distance = product/grainsCount;
+        int k = 0;
+        int grainNumber = 1;
+
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < columns; j++) {
+                if(k%distance == 0 && k<product){
+                    board.board[i][j].cellStateString = "grain"+grainNumber;
+                    grainNumber++;
+                    System.out.println("grainNumber = "+grainNumber);
+                }
+                k++;
+            }
+        }
+
+        drawing.drawBoardString(board);
+        
 
     }
 

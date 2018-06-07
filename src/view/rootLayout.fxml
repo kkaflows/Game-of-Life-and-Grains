@@ -23,7 +23,7 @@
       <RadioButton fx:id="periodRadioButton" layoutX="1205.0" layoutY="234.0" mnemonicParsing="false" text="Period" />
       <Button layoutX="1186.0" layoutY="451.0" mnemonicParsing="false" onAction="#handleRandomGrains" text="Random Grains" />
       <Button layoutX="1165.0" layoutY="546.0" mnemonicParsing="false" onAction="#handleRandomGrainsRadius" text="Random Grains Radius" />
-      <Button layoutX="1137.0" layoutY="587.0" mnemonicParsing="false" text="Random Grains evenly spaced" />
+      <Button layoutX="1137.0" layoutY="587.0" mnemonicParsing="false" onAction="#handleRandomGrainsEvenlySpaced" text="Random Grains evenly spaced" />
       <TextField fx:id="radiusTextField" layoutX="1161.0" layoutY="510.0" />
       <Button layoutX="1218.0" layoutY="76.0" mnemonicParsing="false" onAction="#handleStopButton" text="Stop" />
       <Label layoutX="1221.0" layoutY="487.0" text="Radius" />
