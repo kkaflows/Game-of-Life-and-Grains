@@ -10,7 +10,7 @@
 
 <AnchorPane prefHeight="1128.0" prefWidth="1327.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.Controller">
    <children>
-      <Canvas fx:id="canvas" height="1000.0" layoutX="65.0" layoutY="55.0" width="1000.0" />
+      <Canvas fx:id="canvas" height="1000.0" layoutX="38.0" layoutY="10.0" width="1000.0" />
       <Button layoutX="1189.0" layoutY="29.0" mnemonicParsing="false" onAction="#handleStartSimulationButton" text="Start simulation" />
       <Button layoutX="1204.0" layoutY="410.0" mnemonicParsing="false" onAction="#handleInitializeButton" text="initialize" />
       <TextField fx:id="sizeOfCellTextField" layoutX="1161.0" layoutY="370.0" />
@@ -32,6 +32,8 @@
       <Label layoutX="1221.0" layoutY="655.0" text="x:" />
       <Label layoutX="1221.0" layoutY="719.0" text="y:" />
       <Label layoutX="1201.0" layoutY="630.0" text="Board size:" />
+      <Button layoutX="1161.0" layoutY="827.0" mnemonicParsing="false" onAction="#handleMonteCarloRandomShots" text="Monte Carlo 100 Shots" />
+      <Button layoutX="1157.0" layoutY="876.0" mnemonicParsing="false" onAction="#handleMonteCarloWholeBoard" text="Monte Carlo Whole Board" />
 
 
    </children>

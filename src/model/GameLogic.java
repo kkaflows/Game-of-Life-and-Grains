@@ -1,12 +1,8 @@
 package model;
 
-import javafx.event.EventHandler;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.RadioButton;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.ArcType;
 
 import java.util.*;
 
@@ -284,7 +280,7 @@ public class GameLogic {
             if (y == -1) tmpY = 0;
             if (y == rows) tmpY = rows - 1;
         }
-        if (board.board[tmpX][tmpY].cellStateString == "" && newBoard.board[tmpX][tmpY].cellStateString =="")
+        if (board.board[tmpX][tmpY].cellStateString == "" && newBoard.board[tmpX][tmpY].cellStateString == "")
 
             newBoard.board[tmpX][tmpY].cellStateString = grainName;
     }
@@ -506,72 +502,188 @@ public class GameLogic {
         grainCoordinates[0][0] = x;
         grainCoordinates[0][1] = y;
 
-        System.out.println("x = "+ grainCoordinates[0][0] + " y = "+grainCoordinates[0][1]);
+        System.out.println("x = " + grainCoordinates[0][0] + " y = " + grainCoordinates[0][1]);
 
-        for (int i = 0; i < grainsCount-1; i++) {
-             x = Math.abs(random.nextInt() % (rows - 2) + 1);
-             y = Math.abs(random.nextInt() % (columns - 2) + 1);
-            System.out.println("x = "+x+ " y = "+y);
-            if(board.board[x][y].cellStateString == "") {
+        for (int i = 0; i < grainsCount - 1; i++) {
+            x = Math.abs(random.nextInt() % (rows - 2) + 1);
+            y = Math.abs(random.nextInt() % (columns - 2) + 1);
+            System.out.println("x = " + x + " y = " + y);
+            if (board.board[x][y].cellStateString == "") {
                 aboveRadius = checkRadius(radius, grainCoordinates, x, y, i);
-                System.out.println("aboveRadius = "+aboveRadius);
+                System.out.println("aboveRadius = " + aboveRadius);
                 if (aboveRadius) {
-                    board.board[x][y].cellStateString = grainName +(i+2);
-                    grainCoordinates[i+1][0] = x;
-                    grainCoordinates[i+1][1] = y;
+                    board.board[x][y].cellStateString = grainName + (i + 2);
+                    grainCoordinates[i + 1][0] = x;
+                    grainCoordinates[i + 1][1] = y;
                     System.out.println("inside aboveRadius");
-                }else{
+                } else {
                     i--;
                 }
-            }else{
+            } else {
                 i--;
             }
         }
-
 
 
         drawing.drawBoardString(board);
     }
 
 
-    public void randomGrainsEvenlySpaced(){
+    public void randomGrainsEvenlySpaced() {
 
 
-        int product = rows*columns;
-        int distance = product/grainsCount;
+        int product = rows * columns;
+        int distance = product / grainsCount;
         int k = 0;
         int grainNumber = 1;
 
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns; j++) {
-                if(k%distance == 0 && k<product){
-                    board.board[i][j].cellStateString = "grain"+grainNumber;
+                if (k % distance == 0 && k < product) {
+                    board.board[i][j].cellStateString = "grain" + grainNumber;
                     grainNumber++;
-                    System.out.println("grainNumber = "+grainNumber);
+                    System.out.println("grainNumber = " + grainNumber);
                 }
                 k++;
             }
         }
 
         drawing.drawBoardString(board);
-        
+
 
     }
 
     private Boolean checkRadius(int radius, int[][] grainCoordinates, int x, int y, int i) {
         Boolean aboveRadius = false;
         for (int j = 0; j <= i; j++) {
-            double distance = (Math.pow(x-grainCoordinates[j][0], 2)  + Math.pow(y-grainCoordinates[j][1], 2));
+            double distance = (Math.pow(x - grainCoordinates[j][0], 2) + Math.pow(y - grainCoordinates[j][1], 2));
             distance = Math.sqrt(distance);
-            System.out.println("distance = "+ distance);
-            if(distance > radius){
+            System.out.println("distance = " + distance);
+            if (distance > radius) {
                 aboveRadius = true;
-            }else {
-            aboveRadius = false;
-            return aboveRadius;
+            } else {
+                aboveRadius = false;
+                return aboveRadius;
             }
         }
         return aboveRadius;
+    }
+
+
+    public Board monteCarloWholeBoard() {
+        Board newBoard = new Board(rows, columns);
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < columns; j++) {
+
+                int energyCenter = calculateEnergy(i, j);
+                System.out.println("energyCenter = "+energyCenter);
+                if (energyCenter >= 5) {
+                    System.out.println("DO NOTHING");
+                    newBoard.board[i][j].cellStateString = board.board[i][j].cellStateString;
+                } else {
+                    List maxSurroundings = getListOfSurroundingsOfCell(i, j);
+
+                    newBoard.board[i][j].cellStateString = (String) maxSurroundings.get(0);
+                }
+            }
+        }
+       return newBoard;
+    }
+
+    public void monteCarloRandomShots() {
+        int shots = 100;
+        Random random = new Random();
+
+        for (int k = 0; k < shots; k++) {
+            int i = random.nextInt(rows);
+            int j = random.nextInt(columns);
+            int energyCenter = calculateEnergy(i, j);
+            System.out.println("energyCenter = " + energyCenter);
+            if (energyCenter >=5) {
+                System.out.println("DO NOTHING");
+            } else {
+                List maxSurroundings = getListOfSurroundingsOfCell(i, j);
+                board.board[i][j].cellStateString = (String) maxSurroundings.get(0);
+            }
+            drawing.drawBoardString(board);
+        }
+    }
+
+    private List getListOfSurroundingsOfCell(int i, int j) {
+        HashMap hashMap = new HashMap();
+
+        for (int startX = i - 1; startX <= i + 1; startX++) {
+            for (int startY = j - 1; startY <= j + 1; startY++) {
+                int tmpX = startX;
+                int tmpY = startY;
+                if (period) {
+                    if (tmpX == -1) tmpX = columns - 1;
+                    if (tmpX == columns) tmpX = 0;
+                    if (tmpY == -1) tmpY = rows - 1;
+                    if (tmpY == rows) tmpY = 0;
+                } else {
+                    if (tmpX == -1) tmpX = 0;
+                    if (tmpX == columns) tmpX = columns - 1;
+                    if (tmpY == -1) tmpY = 0;
+                    if (tmpY == rows) tmpY = rows - 1;
+                }
+                int valueFromHashMap;
+
+                String cellStateString = board.board[tmpX][tmpY].cellStateString;
+                if (hashMap.get(cellStateString) != null) {
+                    valueFromHashMap = (int) hashMap.get(cellStateString);
+                    hashMap.put(cellStateString, valueFromHashMap + 1);
+                } else {
+                    hashMap.put(cellStateString, 1);
+                }
+
+
+
+            }
+
+        }
+        int valueFromHashMap = (int) hashMap.get(board.board[i][j].cellStateString);
+        hashMap.put(board.board[i][j].cellStateString, valueFromHashMap-1);
+
+        List maxSurroundings = getHighestVoteList(hashMap);
+        Collections.shuffle(maxSurroundings);
+        System.out.println("Print maxList-------------------------------------");
+        System.out.println(maxSurroundings);
+        System.out.println(maxSurroundings.size());
+        System.out.println("end maxList -------------------------------------");
+        System.out.println();
+        return maxSurroundings;
+    }
+
+    private int calculateEnergy(int x, int y) {
+        int sameCellCount = 0;
+        for (int startX = x - 1; startX <= x + 1; startX++) {
+            for (int startY = y - 1; startY <= y + 1; startY++) {
+
+                int tmpX = startX;
+                int tmpY = startY;
+                if (period) {
+                    if (tmpX == -1) tmpX = columns - 1;
+                    if (tmpX == columns) tmpX = 0;
+                    if (tmpY == -1) tmpY = rows - 1;
+                    if (tmpY == rows) tmpY = 0;
+                } else {
+                    if (tmpX == -1) tmpX = 0;
+                    if (tmpX == columns) tmpX = columns - 1;
+                    if (tmpY == -1) tmpY = 0;
+                    if (tmpY == rows) tmpY = rows - 1;
+                }
+
+                if (board.board[tmpX][tmpY].cellStateString == board.board[x][y].cellStateString) {
+                    sameCellCount++;
+                }
+                System.out.println("x = "+tmpX+ "y = "+tmpY);
+
+            }
+        }
+        sameCellCount--;
+        return sameCellCount;
+
     }
 
 

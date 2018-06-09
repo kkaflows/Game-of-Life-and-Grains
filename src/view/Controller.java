@@ -210,6 +210,18 @@ public class Controller {
         gameLogic.randomGrainsEvenlySpaced();
     }
 
+    @FXML
+    public void handleMonteCarloRandomShots(){
+        gameLogic.monteCarloRandomShots();
+    }
+
+    @FXML
+    public void handleMonteCarloWholeBoard(){
+
+        gameLogic.board = gameLogic.monteCarloWholeBoard();
+        gameLogic.drawing.drawBoardString(gameLogic.board);
+    }
+
     private void saveFile(){
         FileChooser fc = new FileChooser();
         fc.setInitialDirectory(new File("res/maps"));
