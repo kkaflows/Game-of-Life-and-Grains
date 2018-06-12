@@ -212,7 +212,34 @@ public class Controller {
 
     @FXML
     public void handleMonteCarloRandomShots(){
+
         gameLogic.monteCarloRandomShots();
+    }
+
+    @FXML
+    void handleMonteCarloWholeBoardButton() throws InterruptedException {
+        running = true;
+        thread = new Thread(() -> {
+            while (running) {
+                Platform.runLater(() -> startMonteCarlo());
+                try {
+                    Thread.sleep(300);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        thread.start();
+    }
+
+    private void startMonteCarlo() {
+        gameLogic.board = gameLogic.monteCarloWholeBoard();
+        gameLogic.drawing.drawBoardString(gameLogic.board);
+    }
+
+    @FXML
+    public void handleRandomMonteCarloGrains(){
+        gameLogic.randomMonteCarloGrains();
     }
 
     @FXML

@@ -33,7 +33,8 @@
       <Label layoutX="1221.0" layoutY="719.0" text="y:" />
       <Label layoutX="1201.0" layoutY="630.0" text="Board size:" />
       <Button layoutX="1161.0" layoutY="827.0" mnemonicParsing="false" onAction="#handleMonteCarloRandomShots" text="Monte Carlo 100 Shots" />
-      <Button layoutX="1157.0" layoutY="876.0" mnemonicParsing="false" onAction="#handleMonteCarloWholeBoard" text="Monte Carlo Whole Board" />
+      <Button layoutX="1157.0" layoutY="876.0" mnemonicParsing="false" onAction="#handleMonteCarloWholeBoardButton" text="Monte Carlo Whole Board" />
+      <Button layoutX="1142.0" layoutY="924.0" mnemonicParsing="false" onAction="#handleRandomMonteCarloGrains" text="Random Monte Carlo Grains" />
 
 
    </children>

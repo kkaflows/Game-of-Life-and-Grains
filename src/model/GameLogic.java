@@ -576,7 +576,7 @@ public class GameLogic {
             for (int j = 0; j < columns; j++) {
 
                 int energyCenter = calculateEnergy(i, j);
-                System.out.println("energyCenter = "+energyCenter);
+                System.out.println("energyCenter = " + energyCenter);
                 if (energyCenter >= 5) {
                     System.out.println("DO NOTHING");
                     newBoard.board[i][j].cellStateString = board.board[i][j].cellStateString;
@@ -587,7 +587,7 @@ public class GameLogic {
                 }
             }
         }
-       return newBoard;
+        return newBoard;
     }
 
     public void monteCarloRandomShots() {
@@ -599,7 +599,7 @@ public class GameLogic {
             int j = random.nextInt(columns);
             int energyCenter = calculateEnergy(i, j);
             System.out.println("energyCenter = " + energyCenter);
-            if (energyCenter >=5) {
+            if (energyCenter >= 5) {
                 System.out.println("DO NOTHING");
             } else {
                 List maxSurroundings = getListOfSurroundingsOfCell(i, j);
@@ -636,14 +636,11 @@ public class GameLogic {
                 } else {
                     hashMap.put(cellStateString, 1);
                 }
-
-
-
             }
 
         }
         int valueFromHashMap = (int) hashMap.get(board.board[i][j].cellStateString);
-        hashMap.put(board.board[i][j].cellStateString, valueFromHashMap-1);
+        hashMap.put(board.board[i][j].cellStateString, valueFromHashMap - 1);
 
         List maxSurroundings = getHighestVoteList(hashMap);
         Collections.shuffle(maxSurroundings);
@@ -677,13 +674,41 @@ public class GameLogic {
                 if (board.board[tmpX][tmpY].cellStateString == board.board[x][y].cellStateString) {
                     sameCellCount++;
                 }
-                System.out.println("x = "+tmpX+ "y = "+tmpY);
+                System.out.println("x = " + tmpX + "y = " + tmpY);
 
             }
         }
         sameCellCount--;
         return sameCellCount;
 
+    }
+
+    public void randomMonteCarloGrains(){
+        List<String> grainsList = new ArrayList<>();
+        List<String> grainsListCopy = new ArrayList<>();
+        for (int i = 1; i <= grainsCount; i++) {
+            grainsList.add("grain"+i);
+        }
+        grainsListCopy = grainsList;
+        Collections.shuffle(grainsListCopy);
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < columns; j++) {
+                if(grainsList.size()>0){
+                    board.board[i][j].cellStateString = grainsList.get(0);
+                    grainsListCopy.remove(0);
+                    System.out.println(grainsList.size());
+                }else{
+                    for (int k = 1;k < grainsCount; k++) {
+                        grainsList.add("grain"+k);
+                    }
+                    Collections.shuffle(grainsList);
+                    board.board[i][j].cellStateString = grainsList.get(0);
+                    grainsListCopy.remove(0);
+                    System.out.println(grainsList.size());
+                }
+            }
+        }
+        drawing.drawBoardString(board);
     }
 
 
